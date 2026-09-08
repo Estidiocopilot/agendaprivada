@@ -1,483 +1,815 @@
-```html
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
+```css
+/* =========================================
+   CONFIGURACIÓN GENERAL
+========================================= */
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --fondo: #f4f6f9;
+    --superficie: #ffffff;
+    --texto: #1f2937;
+    --texto-secundario: #6b7280;
+    --borde: #e5e7eb;
 
-    <meta name="description"
-          content="Aplicación de agenda personal">
+    --primario: #2563eb;
+    --primario-hover: #1d4ed8;
 
-    <title>Mi Agenda Personal</title>
+    --exito: #16a34a;
+    --advertencia: #f59e0b;
+    --peligro: #dc2626;
 
-    <!-- Hoja de estilos -->
-    <link rel="stylesheet" href="css/estilos.css">
-</head>
+    --sombra: 0 4px 15px rgba(0, 0, 0, 0.08);
 
-<body>
+    --radio: 12px;
+}
 
-    <!-- =========================================
-         ENCABEZADO
-    ========================================== -->
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+    min-height: 100vh;
+}
 
-    <header class="encabezado">
 
-        <div class="logo">
-            <span>📅</span>
-            <h1>Mi Agenda</h1>
-        </div>
+/* =========================================
+   ENCABEZADO
+========================================= */
 
-        <div class="acciones-header">
+.encabezado {
+    width: 100%;
+    background: var(--superficie);
+    border-bottom: 1px solid var(--borde);
 
-            <button id="btnModoOscuro"
-                    class="btn-icono"
-                    title="Cambiar tema">
-                🌙
-            </button>
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-            <button id="btnNuevaTarea"
-                    class="btn-principal">
-                + Nueva actividad
-            </button>
+    padding: 18px 40px;
 
-        </div>
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
 
-    </header>
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
+.logo span {
+    font-size: 30px;
+}
 
-    <!-- =========================================
-         CONTENIDO PRINCIPAL
-    ========================================== -->
+.logo h1 {
+    font-size: 24px;
+}
 
-    <main class="contenedor">
+.acciones-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
-        <!-- =====================================
-             PANEL DE RESUMEN
-        ====================================== -->
 
-        <section class="resumen">
+/* =========================================
+   BOTONES
+========================================= */
 
-            <div class="tarjeta-resumen">
-                <span class="icono">📋</span>
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+}
 
-                <div>
-                    <span class="titulo-resumen">
-                        Total
-                    </span>
+.btn-principal {
+    background: var(--primario);
+    color: white;
 
-                    <strong id="totalEventos">
-                        0
-                    </strong>
-                </div>
-            </div>
+    padding: 11px 18px;
 
+    border-radius: 8px;
 
-            <div class="tarjeta-resumen">
-                <span class="icono">⏳</span>
+    font-weight: bold;
 
-                <div>
-                    <span class="titulo-resumen">
-                        Pendientes
-                    </span>
+    transition: 0.2s;
+}
 
-                    <strong id="eventosPendientes">
-                        0
-                    </strong>
-                </div>
-            </div>
+.btn-principal:hover {
+    background: var(--primario-hover);
+    transform: translateY(-1px);
+}
 
+.btn-secundario {
+    background: #e5e7eb;
+    color: #374151;
 
-            <div class="tarjeta-resumen">
-                <span class="icono">✅</span>
+    padding: 11px 18px;
 
-                <div>
-                    <span class="titulo-resumen">
-                        Completadas
-                    </span>
+    border-radius: 8px;
 
-                    <strong id="eventosCompletados">
-                        0
-                    </strong>
-                </div>
-            </div>
+    font-weight: bold;
+}
 
-        </section>
+.btn-icono {
+    width: 42px;
+    height: 42px;
 
+    background: var(--fondo);
 
-        <!-- =====================================
-             BARRA DE BÚSQUEDA
-        ====================================== -->
+    border-radius: 50%;
 
-        <section class="barra-herramientas">
+    font-size: 18px;
 
-            <div class="buscador">
+    transition: 0.2s;
+}
 
-                <span>🔎</span>
+.btn-icono:hover {
+    transform: scale(1.05);
+}
 
-                <input
-                    type="text"
-                    id="buscarEvento"
-                    placeholder="Buscar actividades..."
-                >
+.btn-calendario {
+    width: 38px;
+    height: 38px;
 
-            </div>
+    background: var(--fondo);
 
+    border-radius: 8px;
 
-            <select id="filtroCategoria">
+    font-size: 16px;
+}
 
-                <option value="todas">
-                    Todas las categorías
-                </option>
+.btn-calendario:hover {
+    background: var(--primario);
+    color: white;
+}
 
-                <option value="trabajo">
-                    Trabajo
-                </option>
 
-                <option value="personal">
-                    Personal
-                </option>
+/* =========================================
+   CONTENEDOR PRINCIPAL
+========================================= */
 
-                <option value="estudio">
-                    Estudio
-                </option>
+.contenedor {
+    width: min(1400px, 94%);
 
-                <option value="salud">
-                    Salud
-                </option>
+    margin: 30px auto;
+}
 
-                <option value="otros">
-                    Otros
-                </option>
 
-            </select>
+/* =========================================
+   RESUMEN
+========================================= */
 
+.resumen {
+    display: grid;
 
-            <select id="filtroEstado">
+    grid-template-columns:
+        repeat(3, 1fr);
 
-                <option value="todos">
-                    Todos los estados
-                </option>
+    gap: 20px;
 
-                <option value="pendiente">
-                    Pendientes
-                </option>
+    margin-bottom: 25px;
+}
 
-                <option value="completado">
-                    Completadas
-                </option>
+.tarjeta-resumen {
+    background: var(--superficie);
 
-            </select>
+    padding: 22px;
 
-        </section>
+    border-radius: var(--radio);
 
+    box-shadow: var(--sombra);
 
-        <!-- =====================================
-             CALENDARIO
-        ====================================== -->
+    display: flex;
+    align-items: center;
 
-        <section class="calendario">
+    gap: 16px;
+}
 
-            <div class="calendario-header">
+.tarjeta-resumen .icono {
+    width: 50px;
+    height: 50px;
 
-                <button id="btnMesAnterior"
-                        class="btn-calendario">
-                    ◀
-                </button>
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-                <h2 id="mesActual">
-                    Septiembre 2026
-                </h2>
+    background: #eff6ff;
 
-                <button id="btnMesSiguiente"
-                        class="btn-calendario">
-                    ▶
-                </button>
+    border-radius: 10px;
 
-            </div>
+    font-size: 23px;
+}
 
+.titulo-resumen {
+    display: block;
 
-            <div class="dias-semana">
+    color: var(--texto-secundario);
 
-                <div>Lun</div>
-                <div>Mar</div>
-                <div>Mié</div>
-                <div>Jue</div>
-                <div>Vie</div>
-                <div>Sáb</div>
-                <div>Dom</div>
+    font-size: 14px;
 
-            </div>
+    margin-bottom: 5px;
+}
 
+.tarjeta-resumen strong {
+    font-size: 25px;
+}
 
-            <div id="diasCalendario"
-                 class="dias-calendario">
 
-                <!--
-                    JavaScript generará
-                    automáticamente los días.
-                -->
+/* =========================================
+   BARRA DE HERRAMIENTAS
+========================================= */
 
-            </div>
+.barra-herramientas {
+    background: var(--superficie);
 
-        </section>
+    padding: 18px;
 
+    border-radius: var(--radio);
 
-        <!-- =====================================
-             ACTIVIDADES
-        ====================================== -->
+    box-shadow: var(--sombra);
 
-        <section class="actividades">
+    display: flex;
 
-            <div class="titulo-seccion">
+    gap: 15px;
 
-                <div>
-                    <h2>Mis actividades</h2>
+    margin-bottom: 25px;
+}
 
-                    <p>
-                        Gestiona tus tareas y compromisos
-                    </p>
-                </div>
+.buscador {
+    flex: 1;
 
-            </div>
+    display: flex;
+    align-items: center;
 
+    gap: 10px;
 
-            <div id="listaEventos"
-                 class="lista-eventos">
+    border: 1px solid var(--borde);
 
-                <!--
-                    JavaScript mostrará
-                    aquí las actividades.
-                -->
+    padding: 0 14px;
 
-                <div class="sin-eventos">
+    border-radius: 8px;
+}
 
-                    <span>📭</span>
+.buscador input {
+    width: 100%;
 
-                    <h3>
-                        No tienes actividades
-                    </h3>
+    border: none;
+    outline: none;
 
-                    <p>
-                        Agrega tu primera actividad
-                        para comenzar.
-                    </p>
+    background: transparent;
 
-                </div>
+    padding: 11px 0;
 
-            </div>
+    color: var(--texto);
+}
 
-        </section>
+.barra-herramientas select {
+    border: 1px solid var(--borde);
 
-    </main>
+    border-radius: 8px;
 
+    padding: 0 12px;
 
-    <!-- =========================================
-         MODAL NUEVA ACTIVIDAD
-    ========================================== -->
+    background: var(--superficie);
 
-    <div id="modalEvento"
-         class="modal">
+    color: var(--texto);
 
-        <div class="modal-contenido">
+    outline: none;
+}
 
-            <div class="modal-header">
 
-                <h2 id="tituloModal">
-                    Nueva actividad
-                </h2>
+/* =========================================
+   CALENDARIO
+========================================= */
 
-                <button id="btnCerrarModal"
-                        class="btn-cerrar">
-                    ×
-                </button>
+.calendario {
+    background: var(--superficie);
 
-            </div>
+    border-radius: var(--radio);
 
+    box-shadow: var(--sombra);
 
-            <form id="formularioEvento">
+    padding: 25px;
 
-                <!-- ID oculto para edición -->
+    margin-bottom: 25px;
+}
 
-                <input
-                    type="hidden"
-                    id="eventoId"
-                >
+.calendario-header {
+    display: flex;
 
+    align-items: center;
 
-                <!-- Título -->
+    justify-content: space-between;
 
-                <div class="campo">
+    margin-bottom: 25px;
+}
 
-                    <label for="tituloEvento">
-                        Título
-                    </label>
+.calendario-header h2 {
+    font-size: 21px;
+}
 
-                    <input
-                        type="text"
-                        id="tituloEvento"
-                        placeholder="Ej: Reunión de trabajo"
-                        required
-                    >
+.dias-semana {
+    display: grid;
 
-                </div>
+    grid-template-columns:
+        repeat(7, 1fr);
 
+    text-align: center;
 
-                <!-- Descripción -->
+    font-weight: bold;
 
-                <div class="campo">
+    color: var(--texto-secundario);
 
-                    <label for="descripcionEvento">
-                        Descripción
-                    </label>
+    margin-bottom: 10px;
+}
 
-                    <textarea
-                        id="descripcionEvento"
-                        placeholder="Descripción de la actividad..."
-                        rows="4"
-                    ></textarea>
+.dias-calendario {
+    display: grid;
 
-                </div>
+    grid-template-columns:
+        repeat(7, 1fr);
 
+    gap: 5px;
+}
 
-                <!-- Fecha -->
+.dia {
+    min-height: 80px;
 
-                <div class="fila">
+    border: 1px solid var(--borde);
 
-                    <div class="campo">
+    border-radius: 8px;
 
-                        <label for="fechaEvento">
-                            Fecha
-                        </label>
+    padding: 10px;
 
-                        <input
-                            type="date"
-                            id="fechaEvento"
-                            required
-                        >
+    cursor: pointer;
 
-                    </div>
+    transition: 0.2s;
+}
 
+.dia:hover {
+    border-color: var(--primario);
 
-                    <!-- Hora -->
+    background: #eff6ff;
+}
 
-                    <div class="campo">
+.dia.otro-mes {
+    opacity: 0.4;
+}
 
-                        <label for="horaEvento">
-                            Hora
-                        </label>
+.dia.hoy {
+    border: 2px solid var(--primario);
+}
 
-                        <input
-                            type="time"
-                            id="horaEvento"
-                        >
+.numero-dia {
+    font-weight: bold;
+}
 
-                    </div>
 
-                </div>
+/* =========================================
+   ACTIVIDADES
+========================================= */
 
+.actividades {
+    background: var(--superficie);
 
-                <!-- Categoría -->
+    border-radius: var(--radio);
 
-                <div class="campo">
+    box-shadow: var(--sombra);
 
-                    <label for="categoriaEvento">
-                        Categoría
-                    </label>
+    padding: 25px;
+}
 
-                    <select id="categoriaEvento">
+.titulo-seccion {
+    display: flex;
 
-                        <option value="trabajo">
-                            Trabajo
-                        </option>
+    justify-content: space-between;
 
-                        <option value="personal">
-                            Personal
-                        </option>
+    margin-bottom: 20px;
+}
 
-                        <option value="estudio">
-                            Estudio
-                        </option>
+.titulo-seccion h2 {
+    margin-bottom: 5px;
+}
 
-                        <option value="salud">
-                            Salud
-                        </option>
+.titulo-seccion p {
+    color: var(--texto-secundario);
 
-                        <option value="otros">
-                            Otros
-                        </option>
+    font-size: 14px;
+}
 
-                    </select>
+.lista-eventos {
+    display: flex;
 
-                </div>
+    flex-direction: column;
 
+    gap: 12px;
+}
 
-                <!-- Prioridad -->
 
-                <div class="campo">
+/* =========================================
+   EVENTOS
+========================================= */
 
-                    <label for="prioridadEvento">
-                        Prioridad
-                    </label>
+.evento {
+    border: 1px solid var(--borde);
 
-                    <select id="prioridadEvento">
+    border-left: 5px solid var(--primario);
 
-                        <option value="baja">
-                            Baja
-                        </option>
+    padding: 16px;
 
-                        <option value="media"
-                                selected>
-                            Media
-                        </option>
+    border-radius: 8px;
 
-                        <option value="alta">
-                            Alta
-                        </option>
+    display: flex;
 
-                    </select>
+    justify-content: space-between;
 
-                </div>
+    align-items: center;
 
+    gap: 15px;
+}
 
-                <!-- Botones -->
+.evento-info {
+    flex: 1;
+}
 
-                <div class="modal-acciones">
+.evento-titulo {
+    font-size: 17px;
 
-                    <button
-                        type="button"
-                        id="btnCancelar"
-                        class="btn-secundario">
+    font-weight: bold;
 
-                        Cancelar
+    margin-bottom: 5px;
+}
 
-                    </button>
+.evento-descripcion {
+    color: var(--texto-secundario);
 
+    font-size: 14px;
 
-                    <button
-                        type="submit"
-                        class="btn-principal">
+    margin-bottom: 8px;
+}
 
-                        Guardar actividad
+.evento-datos {
+    display: flex;
 
-                    </button>
+    gap: 15px;
 
-                </div>
+    color: var(--texto-secundario);
 
-            </form>
+    font-size: 13px;
+}
 
-        </div>
+.evento-acciones {
+    display: flex;
 
-    </div>
+    gap: 8px;
+}
 
+.evento-acciones button {
+    padding: 8px;
 
-    <!-- =========================================
-         JAVASCRIPT
-    ========================================== -->
+    border-radius: 6px;
 
-    <script src="js/app.js"></script>
+    background: var(--fondo);
+}
 
-</body>
-</html>
+.evento-acciones button:hover {
+    background: var(--borde);
+}
+
+
+/* =========================================
+   PRIORIDADES
+========================================= */
+
+.prioridad-baja {
+    border-left-color: var(--exito);
+}
+
+.prioridad-media {
+    border-left-color: var(--advertencia);
+}
+
+.prioridad-alta {
+    border-left-color: var(--peligro);
+}
+
+
+/* =========================================
+   EVENTO COMPLETADO
+========================================= */
+
+.evento.completado {
+    opacity: 0.6;
+}
+
+.evento.completado .evento-titulo {
+    text-decoration: line-through;
+}
+
+
+/* =========================================
+   SIN EVENTOS
+========================================= */
+
+.sin-eventos {
+    text-align: center;
+
+    padding: 50px 20px;
+
+    color: var(--texto-secundario);
+}
+
+.sin-eventos span {
+    font-size: 45px;
+
+    display: block;
+
+    margin-bottom: 10px;
+}
+
+.sin-eventos h3 {
+    color: var(--texto);
+
+    margin-bottom: 8px;
+}
+
+
+/* =========================================
+   MODAL
+========================================= */
+
+.modal {
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    z-index: 1000;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.modal.mostrar {
+    display: flex;
+}
+
+.modal-contenido {
+    background: var(--superficie);
+
+    width: min(600px, 100%);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    border-radius: 14px;
+
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+}
+
+.modal-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 20px;
+
+    border-bottom: 1px solid var(--borde);
+}
+
+.btn-cerrar {
+    background: transparent;
+
+    font-size: 30px;
+
+    color: var(--texto-secundario);
+
+    line-height: 1;
+}
+
+
+/* =========================================
+   FORMULARIO
+========================================= */
+
+#formularioEvento {
+    padding: 20px;
+}
+
+.campo {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-bottom: 17px;
+}
+
+.campo label {
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+.campo input,
+.campo textarea,
+.campo select {
+    width: 100%;
+
+    padding: 11px 12px;
+
+    border: 1px solid var(--borde);
+
+    border-radius: 8px;
+
+    outline: none;
+
+    font-family: inherit;
+
+    background: var(--superficie);
+
+    color: var(--texto);
+}
+
+.campo input:focus,
+.campo textarea:focus,
+.campo select:focus {
+    border-color: var(--primario);
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.campo textarea {
+    resize: vertical;
+}
+
+.fila {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 15px;
+}
+
+.modal-acciones {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+
+/* =========================================
+   MODO OSCURO
+========================================= */
+
+body.modo-oscuro {
+    --fondo: #111827;
+    --superficie: #1f2937;
+    --texto: #f9fafb;
+    --texto-secundario: #9ca3af;
+    --borde: #374151;
+
+    --sombra:
+        0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+body.modo-oscuro .btn-secundario {
+    background: #374151;
+    color: #f9fafb;
+}
+
+body.modo-oscuro .btn-icono {
+    background: #374151;
+}
+
+body.modo-oscuro .dia:hover {
+    background: #374151;
+}
+
+
+/* =========================================
+   RESPONSIVE - TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .encabezado {
+        padding: 15px 20px;
+    }
+
+    .contenedor {
+        width: 95%;
+    }
+
+    .resumen {
+        grid-template-columns:
+            1fr;
+    }
+
+    .barra-herramientas {
+        flex-direction: column;
+    }
+
+    .barra-herramientas select {
+        padding: 12px;
+    }
+
+    .dia {
+        min-height: 65px;
+    }
+}
+
+
+/* =========================================
+   RESPONSIVE - CELULAR
+========================================= */
+
+@media (max-width: 600px) {
+
+    .encabezado {
+        padding: 12px 15px;
+    }
+
+    .logo h1 {
+        font-size: 19px;
+    }
+
+    .logo span {
+        font-size: 24px;
+    }
+
+    .btn-principal {
+        padding: 10px 12px;
+
+        font-size: 13px;
+    }
+
+    .contenedor {
+        margin-top: 20px;
+    }
+
+    .calendario,
+    .actividades {
+        padding: 15px;
+    }
+
+    .calendario-header h2 {
+        font-size: 17px;
+    }
+
+    .dias-semana {
+        font-size: 11px;
+    }
+
+    .dia {
+        min-height: 50px;
+
+        padding: 5px;
+
+        font-size: 12px;
+    }
+
+    .evento {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .evento-acciones {
+        width: 100%;
+
+        justify-content: flex-end;
+    }
+
+    .fila {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .modal-contenido {
+        max-height: 95vh;
+    }
+}
 ```
