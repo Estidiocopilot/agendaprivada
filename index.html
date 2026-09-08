@@ -1,0 +1,483 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Aplicación de agenda personal">
+
+    <title>Mi Agenda Personal</title>
+
+    <!-- Hoja de estilos -->
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+
+    <!-- =========================================
+         ENCABEZADO
+    ========================================== -->
+
+    <header class="encabezado">
+
+        <div class="logo">
+            <span>📅</span>
+            <h1>Mi Agenda</h1>
+        </div>
+
+        <div class="acciones-header">
+
+            <button id="btnModoOscuro"
+                    class="btn-icono"
+                    title="Cambiar tema">
+                🌙
+            </button>
+
+            <button id="btnNuevaTarea"
+                    class="btn-principal">
+                + Nueva actividad
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================
+         CONTENIDO PRINCIPAL
+    ========================================== -->
+
+    <main class="contenedor">
+
+        <!-- =====================================
+             PANEL DE RESUMEN
+        ====================================== -->
+
+        <section class="resumen">
+
+            <div class="tarjeta-resumen">
+                <span class="icono">📋</span>
+
+                <div>
+                    <span class="titulo-resumen">
+                        Total
+                    </span>
+
+                    <strong id="totalEventos">
+                        0
+                    </strong>
+                </div>
+            </div>
+
+
+            <div class="tarjeta-resumen">
+                <span class="icono">⏳</span>
+
+                <div>
+                    <span class="titulo-resumen">
+                        Pendientes
+                    </span>
+
+                    <strong id="eventosPendientes">
+                        0
+                    </strong>
+                </div>
+            </div>
+
+
+            <div class="tarjeta-resumen">
+                <span class="icono">✅</span>
+
+                <div>
+                    <span class="titulo-resumen">
+                        Completadas
+                    </span>
+
+                    <strong id="eventosCompletados">
+                        0
+                    </strong>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             BARRA DE BÚSQUEDA
+        ====================================== -->
+
+        <section class="barra-herramientas">
+
+            <div class="buscador">
+
+                <span>🔎</span>
+
+                <input
+                    type="text"
+                    id="buscarEvento"
+                    placeholder="Buscar actividades..."
+                >
+
+            </div>
+
+
+            <select id="filtroCategoria">
+
+                <option value="todas">
+                    Todas las categorías
+                </option>
+
+                <option value="trabajo">
+                    Trabajo
+                </option>
+
+                <option value="personal">
+                    Personal
+                </option>
+
+                <option value="estudio">
+                    Estudio
+                </option>
+
+                <option value="salud">
+                    Salud
+                </option>
+
+                <option value="otros">
+                    Otros
+                </option>
+
+            </select>
+
+
+            <select id="filtroEstado">
+
+                <option value="todos">
+                    Todos los estados
+                </option>
+
+                <option value="pendiente">
+                    Pendientes
+                </option>
+
+                <option value="completado">
+                    Completadas
+                </option>
+
+            </select>
+
+        </section>
+
+
+        <!-- =====================================
+             CALENDARIO
+        ====================================== -->
+
+        <section class="calendario">
+
+            <div class="calendario-header">
+
+                <button id="btnMesAnterior"
+                        class="btn-calendario">
+                    ◀
+                </button>
+
+                <h2 id="mesActual">
+                    Septiembre 2026
+                </h2>
+
+                <button id="btnMesSiguiente"
+                        class="btn-calendario">
+                    ▶
+                </button>
+
+            </div>
+
+
+            <div class="dias-semana">
+
+                <div>Lun</div>
+                <div>Mar</div>
+                <div>Mié</div>
+                <div>Jue</div>
+                <div>Vie</div>
+                <div>Sáb</div>
+                <div>Dom</div>
+
+            </div>
+
+
+            <div id="diasCalendario"
+                 class="dias-calendario">
+
+                <!--
+                    JavaScript generará
+                    automáticamente los días.
+                -->
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             ACTIVIDADES
+        ====================================== -->
+
+        <section class="actividades">
+
+            <div class="titulo-seccion">
+
+                <div>
+                    <h2>Mis actividades</h2>
+
+                    <p>
+                        Gestiona tus tareas y compromisos
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div id="listaEventos"
+                 class="lista-eventos">
+
+                <!--
+                    JavaScript mostrará
+                    aquí las actividades.
+                -->
+
+                <div class="sin-eventos">
+
+                    <span>📭</span>
+
+                    <h3>
+                        No tienes actividades
+                    </h3>
+
+                    <p>
+                        Agrega tu primera actividad
+                        para comenzar.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================
+         MODAL NUEVA ACTIVIDAD
+    ========================================== -->
+
+    <div id="modalEvento"
+         class="modal">
+
+        <div class="modal-contenido">
+
+            <div class="modal-header">
+
+                <h2 id="tituloModal">
+                    Nueva actividad
+                </h2>
+
+                <button id="btnCerrarModal"
+                        class="btn-cerrar">
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="formularioEvento">
+
+                <!-- ID oculto para edición -->
+
+                <input
+                    type="hidden"
+                    id="eventoId"
+                >
+
+
+                <!-- Título -->
+
+                <div class="campo">
+
+                    <label for="tituloEvento">
+                        Título
+                    </label>
+
+                    <input
+                        type="text"
+                        id="tituloEvento"
+                        placeholder="Ej: Reunión de trabajo"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Descripción -->
+
+                <div class="campo">
+
+                    <label for="descripcionEvento">
+                        Descripción
+                    </label>
+
+                    <textarea
+                        id="descripcionEvento"
+                        placeholder="Descripción de la actividad..."
+                        rows="4"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- Fecha -->
+
+                <div class="fila">
+
+                    <div class="campo">
+
+                        <label for="fechaEvento">
+                            Fecha
+                        </label>
+
+                        <input
+                            type="date"
+                            id="fechaEvento"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Hora -->
+
+                    <div class="campo">
+
+                        <label for="horaEvento">
+                            Hora
+                        </label>
+
+                        <input
+                            type="time"
+                            id="horaEvento"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Categoría -->
+
+                <div class="campo">
+
+                    <label for="categoriaEvento">
+                        Categoría
+                    </label>
+
+                    <select id="categoriaEvento">
+
+                        <option value="trabajo">
+                            Trabajo
+                        </option>
+
+                        <option value="personal">
+                            Personal
+                        </option>
+
+                        <option value="estudio">
+                            Estudio
+                        </option>
+
+                        <option value="salud">
+                            Salud
+                        </option>
+
+                        <option value="otros">
+                            Otros
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Prioridad -->
+
+                <div class="campo">
+
+                    <label for="prioridadEvento">
+                        Prioridad
+                    </label>
+
+                    <select id="prioridadEvento">
+
+                        <option value="baja">
+                            Baja
+                        </option>
+
+                        <option value="media"
+                                selected>
+                            Media
+                        </option>
+
+                        <option value="alta">
+                            Alta
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Botones -->
+
+                <div class="modal-acciones">
+
+                    <button
+                        type="button"
+                        id="btnCancelar"
+                        class="btn-secundario">
+
+                        Cancelar
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="btn-principal">
+
+                        Guardar actividad
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script src="js/app.js"></script>
+
+</body>
+</html>
+```
