@@ -1,4 +1,3 @@
-```javascript
 /* =========================================
    AGENDA PERSONAL
    JavaScript
@@ -22,97 +21,72 @@ let eventoEditando = null;
    ELEMENTOS DEL DOM
 ========================================= */
 
-const modalEvento =
-    document.getElementById("modalEvento");
+const modalEvento = document.getElementById("modalEvento");
 
-const formularioEvento =
-    document.getElementById("formularioEvento");
+const formularioEvento = document.getElementById("formularioEvento");
 
-const listaEventos =
-    document.getElementById("listaEventos");
+const listaEventos = document.getElementById("listaEventos");
 
-const diasCalendario =
-    document.getElementById("diasCalendario");
+const diasCalendario = document.getElementById("diasCalendario");
 
-const mesActual =
-    document.getElementById("mesActual");
+const mesActual = document.getElementById("mesActual");
 
-const totalEventos =
-    document.getElementById("totalEventos");
+const totalEventos = document.getElementById("totalEventos");
 
-const eventosPendientes =
-    document.getElementById("eventosPendientes");
+const eventosPendientes = document.getElementById("eventosPendientes");
 
-const eventosCompletados =
-    document.getElementById("eventosCompletados");
+const eventosCompletados = document.getElementById("eventosCompletados");
 
-const buscarEvento =
-    document.getElementById("buscarEvento");
+const buscarEvento = document.getElementById("buscarEvento");
 
-const filtroCategoria =
-    document.getElementById("filtroCategoria");
+const filtroCategoria = document.getElementById("filtroCategoria");
 
-const filtroEstado =
-    document.getElementById("filtroEstado");
+const filtroEstado = document.getElementById("filtroEstado");
 
 
 /* =========================================
    BOTONES
 ========================================= */
 
-const btnNuevaTarea =
-    document.getElementById("btnNuevaTarea");
+const btnNuevaTarea = document.getElementById("btnNuevaTarea");
 
-const btnCerrarModal =
-    document.getElementById("btnCerrarModal");
+const btnCerrarModal = document.getElementById("btnCerrarModal");
 
-const btnCancelar =
-    document.getElementById("btnCancelar");
+const btnCancelar = document.getElementById("btnCancelar");
 
-const btnMesAnterior =
-    document.getElementById("btnMesAnterior");
+const btnMesAnterior = document.getElementById("btnMesAnterior");
 
-const btnMesSiguiente =
-    document.getElementById("btnMesSiguiente");
+const btnMesSiguiente = document.getElementById("btnMesSiguiente");
 
-const btnModoOscuro =
-    document.getElementById("btnModoOscuro");
+const btnModoOscuro = document.getElementById("btnModoOscuro");
 
 
 /* =========================================
    CAMPOS DEL FORMULARIO
 ========================================= */
 
-const eventoId =
-    document.getElementById("eventoId");
+const eventoId = document.getElementById("eventoId");
 
-const tituloEvento =
-    document.getElementById("tituloEvento");
+const tituloEvento = document.getElementById("tituloEvento");
 
-const descripcionEvento =
-    document.getElementById("descripcionEvento");
+const descripcionEvento = document.getElementById("descripcionEvento");
 
-const fechaEvento =
-    document.getElementById("fechaEvento");
+const fechaEvento = document.getElementById("fechaEvento");
 
-const horaEvento =
-    document.getElementById("horaEvento");
+const horaEvento = document.getElementById("horaEvento");
 
-const categoriaEvento =
-    document.getElementById("categoriaEvento");
+const categoriaEvento = document.getElementById("categoriaEvento");
 
-const prioridadEvento =
-    document.getElementById("prioridadEvento");
+const prioridadEvento = document.getElementById("prioridadEvento");
 
-const tituloModal =
-    document.getElementById("tituloModal");
+const tituloModal = document.getElementById("tituloModal");
 
 
 /* =========================================
    INICIALIZACIÓN
 ========================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
     cargarTema();
 
@@ -177,8 +151,7 @@ function cerrarModal() {
 
     eventoEditando = null;
 
-    tituloModal.textContent =
-        "Nueva actividad";
+    tituloModal.textContent = "Nueva actividad";
 
     establecerFechaActual();
 
@@ -186,7 +159,7 @@ function cerrarModal() {
 
 
 /* =========================================
-   FECHA ACTUAL
+   ESTABLECER FECHA ACTUAL
 ========================================= */
 
 function establecerFechaActual() {
@@ -203,26 +176,26 @@ function establecerFechaActual() {
         ahora.getDate()
     ).padStart(2, "0");
 
-    fechaEvento.value =
-        `${año}-${mes}-${dia}`;
+    fechaEvento.value = `${año}-${mes}-${dia}`;
 
 }
 
 
 /* =========================================
-   CREAR NUEVA ACTIVIDAD
+   NUEVA ACTIVIDAD
 ========================================= */
 
 btnNuevaTarea.addEventListener(
     "click",
-    () => {
+    function () {
 
         eventoEditando = null;
 
         formularioEvento.reset();
 
-        tituloModal.textContent =
-            "Nueva actividad";
+        eventoId.value = "";
+
+        tituloModal.textContent = "Nueva actividad";
 
         establecerFechaActual();
 
@@ -248,17 +221,17 @@ btnCancelar.addEventListener(
 
 
 /* =========================================
-   CERRAR AL HACER CLICK FUERA
+   CERRAR MODAL AL HACER CLICK AFUERA
 ========================================= */
 
 modalEvento.addEventListener(
     "click",
-    (evento) => {
+    function (e) {
 
-        if (
-            evento.target === modalEvento
-        ) {
+        if (e.target === modalEvento) {
+
             cerrarModal();
+
         }
 
     }
@@ -266,77 +239,81 @@ modalEvento.addEventListener(
 
 
 /* =========================================
-   GUARDAR FORMULARIO
+   GUARDAR / EDITAR ACTIVIDAD
 ========================================= */
 
 formularioEvento.addEventListener(
     "submit",
-    (evento) => {
+    function (e) {
 
-        evento.preventDefault();
+        e.preventDefault();
+
 
         const datos = {
 
-            titulo:
-                tituloEvento.value.trim(),
+            titulo: tituloEvento.value.trim(),
 
-            descripcion:
-                descripcionEvento.value.trim(),
+            descripcion: descripcionEvento.value.trim(),
 
-            fecha:
-                fechaEvento.value,
+            fecha: fechaEvento.value,
 
-            hora:
-                horaEvento.value,
+            hora: horaEvento.value,
 
-            categoria:
-                categoriaEvento.value,
+            categoria: categoriaEvento.value,
 
-            prioridad:
-                prioridadEvento.value
+            prioridad: prioridadEvento.value
 
         };
 
 
         /* ===============================
-           VALIDACIÓN
+           VALIDAR TÍTULO
         =============================== */
 
-        if (!datos.titulo) {
+        if (datos.titulo === "") {
 
             alert(
-                "Ingresa el título de la actividad."
+                "Por favor, ingresa el título de la actividad."
             );
 
             tituloEvento.focus();
 
             return;
+
         }
 
 
-        if (!datos.fecha) {
+        /* ===============================
+           VALIDAR FECHA
+        =============================== */
+
+        if (datos.fecha === "") {
 
             alert(
-                "Selecciona una fecha."
+                "Por favor, selecciona una fecha."
             );
 
             fechaEvento.focus();
 
             return;
+
         }
 
 
         /* ===============================
-           EDITAR
+           EDITAR ACTIVIDAD
         =============================== */
 
-        if (eventoEditando) {
+        if (eventoEditando !== null) {
 
-            const indice =
-                eventos.findIndex(
-                    item =>
-                        item.id === eventoEditando
-                );
+            const indice = eventos.findIndex(
+                function (evento) {
+
+                    return evento.id === eventoEditando;
+
+                }
+            );
+
 
             if (indice !== -1) {
 
@@ -344,7 +321,17 @@ formularioEvento.addEventListener(
 
                     ...eventos[indice],
 
-                    ...datos
+                    titulo: datos.titulo,
+
+                    descripcion: datos.descripcion,
+
+                    fecha: datos.fecha,
+
+                    hora: datos.hora,
+
+                    categoria: datos.categoria,
+
+                    prioridad: datos.prioridad
 
                 };
 
@@ -352,8 +339,9 @@ formularioEvento.addEventListener(
 
         }
 
+
         /* ===============================
-           CREAR
+           CREAR ACTIVIDAD
         =============================== */
 
         else {
@@ -362,27 +350,41 @@ formularioEvento.addEventListener(
 
                 id: generarId(),
 
-                ...datos,
+                titulo: datos.titulo,
+
+                descripcion: datos.descripcion,
+
+                fecha: datos.fecha,
+
+                hora: datos.hora,
+
+                categoria: datos.categoria,
+
+                prioridad: datos.prioridad,
 
                 completado: false,
 
-                creado:
-                    new Date().toISOString()
+                creado: new Date().toISOString()
 
             };
+
 
             eventos.push(nuevoEvento);
 
         }
 
 
+        /* ===============================
+           GUARDAR
+        =============================== */
+
         guardarEventos();
 
         cerrarModal();
 
-        renderizarCalendario();
-
         renderizarEventos();
+
+        renderizarCalendario();
 
         actualizarResumen();
 
@@ -396,32 +398,35 @@ formularioEvento.addEventListener(
 
 function renderizarEventos() {
 
-    let eventosFiltrados =
-        [...eventos];
+    let eventosFiltrados = [...eventos];
 
 
     /* ===============================
-       BUSCADOR
+       BUSCAR
     =============================== */
 
-    const texto =
-        buscarEvento.value
-            .toLowerCase()
-            .trim();
+    const texto = buscarEvento.value
+        .toLowerCase()
+        .trim();
 
-    if (texto) {
 
-        eventosFiltrados =
-            eventosFiltrados.filter(
-                evento =>
+    if (texto !== "") {
+
+        eventosFiltrados = eventosFiltrados.filter(
+            function (evento) {
+
+                return (
                     evento.titulo
                         .toLowerCase()
-                        .includes(texto) ||
-
+                        .includes(texto)
+                    ||
                     evento.descripcion
                         .toLowerCase()
                         .includes(texto)
-            );
+                );
+
+            }
+        );
 
     }
 
@@ -430,16 +435,18 @@ function renderizarEventos() {
        FILTRO CATEGORÍA
     =============================== */
 
-    const categoria =
-        filtroCategoria.value;
+    const categoria = filtroCategoria.value;
+
 
     if (categoria !== "todas") {
 
-        eventosFiltrados =
-            eventosFiltrados.filter(
-                evento =>
-                    evento.categoria === categoria
-            );
+        eventosFiltrados = eventosFiltrados.filter(
+            function (evento) {
+
+                return evento.categoria === categoria;
+
+            }
+        );
 
     }
 
@@ -448,36 +455,41 @@ function renderizarEventos() {
        FILTRO ESTADO
     =============================== */
 
-    const estado =
-        filtroEstado.value;
+    const estado = filtroEstado.value;
+
 
     if (estado === "pendiente") {
 
-        eventosFiltrados =
-            eventosFiltrados.filter(
-                evento =>
-                    !evento.completado
-            );
+        eventosFiltrados = eventosFiltrados.filter(
+            function (evento) {
+
+                return !evento.completado;
+
+            }
+        );
 
     }
 
+
     if (estado === "completado") {
 
-        eventosFiltrados =
-            eventosFiltrados.filter(
-                evento =>
-                    evento.completado
-            );
+        eventosFiltrados = eventosFiltrados.filter(
+            function (evento) {
+
+                return evento.completado;
+
+            }
+        );
 
     }
 
 
     /* ===============================
-       ORDENAR
+       ORDENAR POR FECHA Y HORA
     =============================== */
 
     eventosFiltrados.sort(
-        (a, b) => {
+        function (a, b) {
 
             const fechaA =
                 `${a.fecha} ${a.hora || "00:00"}`;
@@ -485,9 +497,7 @@ function renderizarEventos() {
             const fechaB =
                 `${b.fecha} ${b.hora || "00:00"}`;
 
-            return fechaA.localeCompare(
-                fechaB
-            );
+            return fechaA.localeCompare(fechaB);
 
         }
     );
@@ -500,24 +510,21 @@ function renderizarEventos() {
     if (eventosFiltrados.length === 0) {
 
         listaEventos.innerHTML = `
-
             <div class="sin-eventos">
 
                 <span>📭</span>
 
-                <h3>
-                    No hay actividades
-                </h3>
+                <h3>No hay actividades</h3>
 
                 <p>
                     No se encontraron actividades.
                 </p>
 
             </div>
-
         `;
 
         return;
+
     }
 
 
@@ -525,16 +532,21 @@ function renderizarEventos() {
        MOSTRAR EVENTOS
     =============================== */
 
-    listaEventos.innerHTML =
-        eventosFiltrados.map(
-            evento => crearHTMLEvento(evento)
-        ).join("");
+    listaEventos.innerHTML = eventosFiltrados
+        .map(
+            function (evento) {
+
+                return crearHTMLEvento(evento);
+
+            }
+        )
+        .join("");
 
 }
 
 
 /* =========================================
-   HTML DE UN EVENTO
+   CREAR HTML DEL EVENTO
 ========================================= */
 
 function crearHTMLEvento(evento) {
@@ -544,24 +556,40 @@ function crearHTMLEvento(evento) {
             evento.categoria
         );
 
+
     const prioridad =
         obtenerNombrePrioridad(
             evento.prioridad
         );
+
 
     const claseCompletado =
         evento.completado
             ? "completado"
             : "";
 
-    return `
 
+    const botonEstado =
+        evento.completado
+            ? "↩️"
+            : "✅";
+
+
+    const tituloBotonEstado =
+        evento.completado
+            ? "Marcar como pendiente"
+            : "Marcar como completada";
+
+
+    const horaHTML =
+        evento.hora
+            ? `<span>🕐 ${evento.hora}</span>`
+            : "";
+
+
+    return `
         <article
-            class="
-                evento
-                prioridad-${evento.prioridad}
-                ${claseCompletado}
-            "
+            class="evento prioridad-${evento.prioridad} ${claseCompletado}"
         >
 
             <div class="evento-info">
@@ -570,12 +598,13 @@ function crearHTMLEvento(evento) {
                     ${escaparHTML(evento.titulo)}
                 </h3>
 
+
                 <p class="evento-descripcion">
                     ${escaparHTML(
-                        evento.descripcion ||
-                        "Sin descripción"
+                        evento.descripcion || "Sin descripción"
                     )}
                 </p>
+
 
                 <div class="evento-datos">
 
@@ -583,13 +612,7 @@ function crearHTMLEvento(evento) {
                         📅 ${formatearFecha(evento.fecha)}
                     </span>
 
-                    ${
-                        evento.hora
-                            ? `<span>
-                                🕐 ${evento.hora}
-                               </span>`
-                            : ""
-                    }
+                    ${horaHTML}
 
                     <span>
                         🏷️ ${categoria}
@@ -607,32 +630,27 @@ function crearHTMLEvento(evento) {
             <div class="evento-acciones">
 
                 <button
+                    type="button"
                     onclick="alternarCompletado('${evento.id}')"
-                    title="${
-                        evento.completado
-                            ? "Marcar pendiente"
-                            : "Completar"
-                    }"
+                    title="${tituloBotonEstado}"
                 >
-                    ${
-                        evento.completado
-                            ? "↩️"
-                            : "✅"
-                    }
+                    ${botonEstado}
                 </button>
 
 
                 <button
+                    type="button"
                     onclick="editarEvento('${evento.id}')"
-                    title="Editar"
+                    title="Editar actividad"
                 >
                     ✏️
                 </button>
 
 
                 <button
+                    type="button"
                     onclick="eliminarEvento('${evento.id}')"
-                    title="Eliminar"
+                    title="Eliminar actividad"
                 >
                     🗑️
                 </button>
@@ -640,7 +658,6 @@ function crearHTMLEvento(evento) {
             </div>
 
         </article>
-
     `;
 
 }
@@ -668,38 +685,47 @@ function escaparHTML(texto) {
 
 function editarEvento(id) {
 
-    const evento =
-        eventos.find(
-            item => item.id === id
-        );
+    const evento = eventos.find(
+        function (item) {
 
-    if (!evento) return;
+            return item.id === id;
+
+        }
+    );
+
+
+    if (!evento) {
+
+        return;
+
+    }
 
 
     eventoEditando = id;
 
-    eventoId.value = id;
 
-    tituloEvento.value =
-        evento.titulo;
+    eventoId.value = evento.id;
+
+    tituloEvento.value = evento.titulo;
 
     descripcionEvento.value =
-        evento.descripcion;
+        evento.descripcion || "";
 
-    fechaEvento.value =
-        evento.fecha;
+    fechaEvento.value = evento.fecha;
 
     horaEvento.value =
-        evento.hora;
+        evento.hora || "";
 
     categoriaEvento.value =
-        evento.categoria;
+        evento.categoria || "otros";
 
     prioridadEvento.value =
-        evento.prioridad;
+        evento.prioridad || "media";
+
 
     tituloModal.textContent =
         "Editar actividad";
+
 
     abrirModal();
 
@@ -712,26 +738,41 @@ function editarEvento(id) {
 
 function eliminarEvento(id) {
 
-    const evento =
-        eventos.find(
-            item => item.id === id
-        );
+    const evento = eventos.find(
+        function (item) {
 
-    if (!evento) return;
+            return item.id === id;
 
-
-    const confirmar =
-        confirm(
-            `¿Deseas eliminar "${evento.titulo}"?`
-        );
-
-    if (!confirmar) return;
+        }
+    );
 
 
-    eventos =
-        eventos.filter(
-            item => item.id !== id
-        );
+    if (!evento) {
+
+        return;
+
+    }
+
+
+    const confirmar = confirm(
+        `¿Deseas eliminar "${evento.titulo}"?`
+    );
+
+
+    if (!confirmar) {
+
+        return;
+
+    }
+
+
+    eventos = eventos.filter(
+        function (item) {
+
+            return item.id !== id;
+
+        }
+    );
 
 
     guardarEventos();
@@ -746,17 +787,25 @@ function eliminarEvento(id) {
 
 
 /* =========================================
-   COMPLETAR EVENTO
+   COMPLETAR / DESCOMPLETAR
 ========================================= */
 
 function alternarCompletado(id) {
 
-    const evento =
-        eventos.find(
-            item => item.id === id
-        );
+    const evento = eventos.find(
+        function (item) {
 
-    if (!evento) return;
+            return item.id === id;
+
+        }
+    );
+
+
+    if (!evento) {
+
+        return;
+
+    }
 
 
     evento.completado =
@@ -775,7 +824,7 @@ function alternarCompletado(id) {
 
 
 /* =========================================
-   RESUMEN
+   ACTUALIZAR RESUMEN
 ========================================= */
 
 function actualizarResumen() {
@@ -783,10 +832,16 @@ function actualizarResumen() {
     const total =
         eventos.length;
 
+
     const completados =
         eventos.filter(
-            evento => evento.completado
+            function (evento) {
+
+                return evento.completado;
+
+            }
         ).length;
+
 
     const pendientes =
         total - completados;
@@ -795,8 +850,10 @@ function actualizarResumen() {
     totalEventos.textContent =
         total;
 
+
     eventosPendientes.textContent =
         pendientes;
+
 
     eventosCompletados.textContent =
         completados;
@@ -805,7 +862,7 @@ function actualizarResumen() {
 
 
 /* =========================================
-   CATEGORÍAS
+   NOMBRE DE CATEGORÍA
 ========================================= */
 
 function obtenerNombreCategoria(categoria) {
@@ -824,14 +881,14 @@ function obtenerNombreCategoria(categoria) {
 
     };
 
-    return categorias[categoria]
-        || "Otros";
+
+    return categorias[categoria] || "Otros";
 
 }
 
 
 /* =========================================
-   PRIORIDADES
+   NOMBRE DE PRIORIDAD
 ========================================= */
 
 function obtenerNombrePrioridad(prioridad) {
@@ -846,8 +903,8 @@ function obtenerNombrePrioridad(prioridad) {
 
     };
 
-    return prioridades[prioridad]
-        || "Media";
+
+    return prioridades[prioridad] || "Media";
 
 }
 
@@ -858,33 +915,37 @@ function obtenerNombrePrioridad(prioridad) {
 
 function formatearFecha(fecha) {
 
-    const partes =
-        fecha.split("-");
+    if (!fecha) {
 
-    if (partes.length !== 3) {
-        return fecha;
+        return "";
+
     }
 
-    const año = partes[0];
 
-    const mes = partes[1];
-
-    const dia = partes[2];
+    const partes = fecha.split("-");
 
 
-    return `${dia}/${mes}/${año}`;
+    if (partes.length !== 3) {
+
+        return fecha;
+
+    }
+
+
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
 
 }
 
 
 /* =========================================
-   CALENDARIO
+   RENDERIZAR CALENDARIO
 ========================================= */
 
 function renderizarCalendario() {
 
     const año =
         fechaCalendario.getFullYear();
+
 
     const mes =
         fechaCalendario.getMonth();
@@ -915,15 +976,9 @@ function renderizarCalendario() {
     diasCalendario.innerHTML = "";
 
 
-    /*
-       JavaScript:
-       getDay() devuelve:
-
-       Domingo = 0
-       Lunes = 1
-       ...
-       Sábado = 6
-    */
+    /* ===============================
+       PRIMER DÍA DEL MES
+    =============================== */
 
     let primerDia =
         new Date(
@@ -934,19 +989,24 @@ function renderizarCalendario() {
 
 
     /*
-       Convertimos para que:
+        JavaScript:
 
-       Lunes = 0
-       Martes = 1
-       ...
-       Domingo = 6
+        Domingo = 0
+        Lunes = 1
+        Martes = 2
+        ...
     */
+
 
     primerDia =
         primerDia === 0
             ? 6
             : primerDia - 1;
 
+
+    /* ===============================
+       ÚLTIMO DÍA DEL MES
+    =============================== */
 
     const ultimoDia =
         new Date(
@@ -955,6 +1015,10 @@ function renderizarCalendario() {
             0
         ).getDate();
 
+
+    /* ===============================
+       ÚLTIMO DÍA MES ANTERIOR
+    =============================== */
 
     const ultimoDiaMesAnterior =
         new Date(
@@ -977,6 +1041,7 @@ function renderizarCalendario() {
         const numero =
             ultimoDiaMesAnterior - i;
 
+
         crearDiaCalendario(
             numero,
             true,
@@ -987,7 +1052,7 @@ function renderizarCalendario() {
 
 
     /* ===============================
-       DÍAS DEL MES
+       DÍAS DEL MES ACTUAL
     =============================== */
 
     for (
@@ -997,9 +1062,7 @@ function renderizarCalendario() {
     ) {
 
         const fecha =
-            `${año}-${String(mes + 1)
-                .padStart(2, "0")}-${String(dia)
-                .padStart(2, "0")}`;
+            `${año}-${String(mes + 1).padStart(2, "0")}-${String(dia).padStart(2, "0")}`;
 
 
         crearDiaCalendario(
@@ -1012,11 +1075,12 @@ function renderizarCalendario() {
 
 
     /* ===============================
-       DÍAS DEL SIGUIENTE MES
+       COMPLETAR CALENDARIO
     =============================== */
 
     const celdas =
         diasCalendario.children.length;
+
 
     const restantes =
         42 - celdas;
@@ -1052,8 +1116,8 @@ function crearDiaCalendario(
     const div =
         document.createElement("div");
 
-    div.className =
-        "dia";
+
+    div.className = "dia";
 
 
     if (otroMes) {
@@ -1066,7 +1130,7 @@ function crearDiaCalendario(
 
 
     /* ===============================
-       DÍA ACTUAL
+       MARCAR HOY
     =============================== */
 
     if (
@@ -1074,20 +1138,19 @@ function crearDiaCalendario(
         esHoy(fecha)
     ) {
 
-        div.classList.add("hoy");
+        div.classList.add(
+            "hoy"
+        );
 
     }
 
 
     div.innerHTML = `
-
         <div class="numero-dia">
             ${numero}
         </div>
 
-        <div class="eventos-dia">
-        </div>
-
+        <div class="eventos-dia"></div>
     `;
 
 
@@ -1099,8 +1162,11 @@ function crearDiaCalendario(
 
         const eventosDia =
             eventos.filter(
-                evento =>
-                    evento.fecha === fecha
+                function (evento) {
+
+                    return evento.fecha === fecha;
+
+                }
             );
 
 
@@ -1112,49 +1178,64 @@ function crearDiaCalendario(
 
         eventosDia
             .slice(0, 3)
-            .forEach(evento => {
+            .forEach(
+                function (evento) {
 
-                const etiqueta =
-                    document.createElement(
-                        "div"
+                    const etiqueta =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    etiqueta.textContent =
+                        evento.titulo;
+
+
+                    etiqueta.style.fontSize =
+                        "11px";
+
+
+                    etiqueta.style.marginTop =
+                        "5px";
+
+
+                    etiqueta.style.overflow =
+                        "hidden";
+
+
+                    etiqueta.style.whiteSpace =
+                        "nowrap";
+
+
+                    etiqueta.style.textOverflow =
+                        "ellipsis";
+
+
+                    contenedor.appendChild(
+                        etiqueta
                     );
 
-                etiqueta.textContent =
-                    evento.titulo;
-
-                etiqueta.style.fontSize =
-                    "11px";
-
-                etiqueta.style.marginTop =
-                    "5px";
-
-                etiqueta.style.overflow =
-                    "hidden";
-
-                etiqueta.style.whiteSpace =
-                    "nowrap";
-
-                etiqueta.style.textOverflow =
-                    "ellipsis";
-
-
-                contenedor.appendChild(
-                    etiqueta
-                );
-
-            });
+                }
+            );
 
 
         /* ===========================
-           CLICK EN EL DÍA
+           CLICK EN FECHA
         =========================== */
 
         div.addEventListener(
             "click",
-            () => {
+            function () {
 
                 fechaEvento.value =
                     fecha;
+
+                eventoEditando = null;
+
+                eventoId.value = "";
+
+                tituloModal.textContent =
+                    "Nueva actividad";
 
                 abrirModal();
 
@@ -1184,10 +1265,12 @@ function esHoy(fecha) {
     const año =
         hoy.getFullYear();
 
+
     const mes =
         String(
             hoy.getMonth() + 1
         ).padStart(2, "0");
+
 
     const dia =
         String(
@@ -1195,23 +1278,27 @@ function esHoy(fecha) {
         ).padStart(2, "0");
 
 
-    return fecha ===
+    const fechaHoy =
         `${año}-${mes}-${dia}`;
+
+
+    return fecha === fechaHoy;
 
 }
 
 
 /* =========================================
-   CAMBIAR MES
+   MES ANTERIOR
 ========================================= */
 
 btnMesAnterior.addEventListener(
     "click",
-    () => {
+    function () {
 
         fechaCalendario.setMonth(
             fechaCalendario.getMonth() - 1
         );
+
 
         renderizarCalendario();
 
@@ -1219,13 +1306,18 @@ btnMesAnterior.addEventListener(
 );
 
 
+/* =========================================
+   MES SIGUIENTE
+========================================= */
+
 btnMesSiguiente.addEventListener(
     "click",
-    () => {
+    function () {
 
         fechaCalendario.setMonth(
             fechaCalendario.getMonth() + 1
         );
+
 
         renderizarCalendario();
 
@@ -1239,22 +1331,39 @@ btnMesSiguiente.addEventListener(
 
 buscarEvento.addEventListener(
     "input",
-    renderizarEventos
+    function () {
+
+        renderizarEventos();
+
+    }
 );
 
 
 /* =========================================
-   FILTROS
+   FILTRO CATEGORÍA
 ========================================= */
 
 filtroCategoria.addEventListener(
     "change",
-    renderizarEventos
+    function () {
+
+        renderizarEventos();
+
+    }
 );
+
+
+/* =========================================
+   FILTRO ESTADO
+========================================= */
 
 filtroEstado.addEventListener(
     "change",
-    renderizarEventos
+    function () {
+
+        renderizarEventos();
+
+    }
 );
 
 
@@ -1264,7 +1373,7 @@ filtroEstado.addEventListener(
 
 btnModoOscuro.addEventListener(
     "click",
-    () => {
+    function () {
 
         document.body.classList.toggle(
             "modo-oscuro"
@@ -1312,10 +1421,10 @@ function cargarTema() {
             "modo-oscuro"
         );
 
+
         btnModoOscuro.textContent =
             "☀️";
 
     }
 
 }
-```
